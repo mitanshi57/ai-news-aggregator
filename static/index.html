@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI News Digest</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px 20px;
+            max-width: 600px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #1a1a2e;
+            border: 1px solid #4a4a8a;
+            color: #8888ff;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #ffffff, #8888ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            font-size: 18px;
+            color: #aaaaaa;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .sources {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin: 24px 0;
+        }
+
+        .source-tag {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            color: #888;
+        }
+
+        .form-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        input[type="email"] {
+            padding: 14px 20px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            background: #1a1a1a;
+            color: #fff;
+            font-size: 16px;
+            width: 300px;
+            outline: none;
+        }
+
+        input[type="email"]:focus {
+            border-color: #8888ff;
+        }
+
+        button {
+            padding: 14px 28px;
+            background: #8888ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        button:hover { background: #6666dd; }
+
+        .message {
+            margin-top: 16px;
+            font-size: 15px;
+            min-height: 24px;
+        }
+
+        .success { color: #44ff88; }
+        .error { color: #ff6666; }
+
+        .stats {
+            margin-top: 40px;
+            color: #555;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="badge">Powered by Llama 3 AI</div>
+        
+        <h1>AI News Digest</h1>
+        
+        <p>Get the latest AI news from the world's top research labs — summarized and delivered to your inbox every morning.</p>
+
+        <div class="sources">
+            <span class="source-tag">OpenAI</span>
+            <span class="source-tag">Anthropic</span>
+            <span class="source-tag">DeepMind</span>
+            <span class="source-tag">Hugging Face</span>
+            <span class="source-tag">Mistral</span>
+            <span class="source-tag">Google Research</span>
+            <span class="source-tag">MIT Tech Review</span>
+        </div>
+
+        <div class="form-group">
+            <input type="email" id="emailInput" placeholder="Enter your email address" />
+            <button onclick="subscribe()">Subscribe Free</button>
+        </div>
+
+        <div class="message" id="message"></div>
+
+        <div class="stats" id="stats"></div>
+    </div>
+
+    <script>
+        // Load subscriber count on page load
+        async function loadStats() {
+            try {
+                const res = await fetch('http://127.0.0.1:8000/subscribers/count');
+                const data = await res.json();
+                document.getElementById('stats').textContent = 
+                    `${data.active_subscribers} people already subscribed`;
+            } catch(e) {}
+        }
+
+        async function subscribe() {
+            const email = document.getElementById('emailInput').value;
+            const msgEl = document.getElementById('message');
+
+            if (!email) {
+                msgEl.textContent = 'Please enter your email!';
+                msgEl.className = 'message error';
+                return;
+            }
+
+            try {
+                const res = await fetch('http://127.0.0.1:8000/subscribe', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email })
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    msgEl.textContent = data.message;
+                    msgEl.className = 'message success';
+                    document.getElementById('emailInput').value = '';
+                    loadStats();
+                } else {
+                    msgEl.textContent = '⚠️ ' + data.detail;
+                    msgEl.className = 'message error';
+                }
+            } catch(e) {
+                msgEl.textContent = 'Something went wrong. Please try again!';
+                msgEl.className = 'message error';
+            }
+        }
+
+        loadStats();
+    </script>
+</body>
+</html>
