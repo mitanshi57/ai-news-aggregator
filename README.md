@@ -120,8 +120,7 @@ ai-news-aggregator/
 ├── main.py
 ├── .env
 └── pyproject.toml
-```
 
-## 👩‍💻 Built By
+## Built By
 Mitanshi P. Asnani
 Building real projects to learn AI & Data Science 
