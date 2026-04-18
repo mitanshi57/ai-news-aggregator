@@ -152,7 +152,7 @@
         // Load subscriber count on page load
         async function loadStats() {
             try {
-                const res = await fetch('http://127.0.0.1:8000/subscribers/count');
+                const res = await fetch('https://ai-news-aggregator-aeq6.onrender.com/subscribers/count');
                 const data = await res.json();
                 document.getElementById('stats').textContent = 
                     `${data.active_subscribers} people already subscribed`;
@@ -170,7 +170,7 @@
             }
 
             try {
-                const res = await fetch('http://127.0.0.1:8000/subscribe', {
+                const res = await fetch('https://ai-news-aggregator-aeq6.onrender.com/subscribe', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email: email })
