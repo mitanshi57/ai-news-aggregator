@@ -101,7 +101,7 @@ That's it! Check your inbox for the AI news digest 📧
 ## Project Structure
 ai-news-aggregator/
 ├── app/
-│   ├── scrapers/          # One file per news source
+│   ├── scrapers/
 │   │   ├── openai.py
 │   │   ├── anthropic.py
 │   │   ├── deepmind.py
@@ -109,19 +109,18 @@ ai-news-aggregator/
 │   │   ├── mistral.py
 │   │   ├── mit_tech_review.py
 │   │   └── google_research.py
-│   ├── services/          # Shared tools
-│   │   ├── database.py    # Database connection
-│   │   ├── article_service.py  # Save articles
-│   │   ├── summarizer.py  # AI summarization
-│   │   └── email_service.py   # Send email digest
-│   └── models.py          # Database table structure
+│   ├── services/
+│   │   ├── database.py
+│   │   ├── article_service.py
+│   │   ├── summarizer.py
+│   │   └── email_service.py
+│   └── models.py
 ├── docker/
-│   └── docker-compose.yml # PostgreSQL setup
-├── main.py                # Main pipeline
-├── .env                   # Your secret keys (never shared)
-└── pyproject.toml         # Project dependencies
-
----
+│   └── docker-compose.yml
+├── main.py
+├── .env
+└── pyproject.toml
+```
 
 ## 👩‍💻 Built By
 Mitanshi P. Asnani
