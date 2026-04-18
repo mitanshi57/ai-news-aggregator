@@ -128,5 +128,4 @@ ai-news-aggregator/
 
 ## Built By
 Mitanshi P. Asnani
-Building real projects to learn AI & Data Science 
 
