@@ -4,7 +4,7 @@ A tool that automatically collects the latest AI news from 7 top sources, summar
 
 ---
 
-## 📬 What It Does
+## What It Does
 
 Every time you run this project, it:
 
