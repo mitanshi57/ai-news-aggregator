@@ -4,6 +4,10 @@ A tool that automatically collects the latest AI news from 7 top sources, summar
 
 ---
 
+## 🌐 Live Demo
+[ai-news-aggregator-aeq6.onrender.com](https://ai-news-aggregator-aeq6.onrender.com)
+
+
 ## What It Does
 
 Every time you run this project, it:
@@ -44,6 +48,7 @@ Every time you run this project, it:
 | python-dotenv | Manages secret keys safely |
 
 ---
+
 
 ## How to Run It Yourself
 
@@ -124,3 +129,4 @@ ai-news-aggregator/
 ## Built By
 Mitanshi P. Asnani
 Building real projects to learn AI & Data Science 
+
