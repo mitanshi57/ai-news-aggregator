@@ -1,26 +1,128 @@
-# AI News Aggregator
+# 🤖 AI News Aggregator
 
-This project scrapes AI news sources, stores new articles, summarizes them, and emails a digest of newly summarized articles.
+A tool that automatically collects the latest AI news from 7 top sources, summarizes each article using AI, and delivers a clean digest straight to your email inbox every day.
 
-## Gmail digest setup
+---
 
-Add these values to your `.env` file:
+## 📬 What It Does
 
-```env
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/ai_news
-GROQ_API_KEY=your_groq_api_key
-GMAIL_SENDER_EMAIL=your_gmail_address@gmail.com
-GMAIL_APP_PASSWORD=your_gmail_app_password
-DIGEST_RECIPIENT_EMAIL=recipient@gmail.com
-```
+Every time you run this project, it:
 
-Notes:
+1. **Scrapes** the latest articles from 7 AI news sources
+2. **Saves** them to a database (skipping ones already saved)
+3. **Summarizes** new articles using AI (Groq's free Llama model)
+4. **Emails** you a formatted digest with titles, sources, and summaries
 
-- `GMAIL_APP_PASSWORD` should be a Gmail App Password, not your normal Gmail password.
-- If `DIGEST_RECIPIENT_EMAIL` is omitted, the digest is sent to `GMAIL_SENDER_EMAIL`.
+---
 
-## Run
+## News Sources
 
+| Source                | Type |
+|-----------------------|------|
+| OpenAI                | Official blog (RSS) 
+| Anthropic             | Official blog (RSS) 
+| Google DeepMind       | Official blog (RSS) 
+| Hugging Face          | Official blog (RSS) 
+| Google Research       | Official blog (RSS) 
+| MIT Technology Review | AI section (RSS)     
+| Mistral AI            | Official news page (Web scraping) 
+
+---
+
+## Tech Stack
+
+| Tool | Purpose |
+|------|---------|
+| Python | Main programming language |
+| PostgreSQL | Database to store articles |
+| Docker | Runs the database locally |
+| SQLAlchemy | Python library to talk to the database |
+| feedparser | Parses RSS feeds |
+| BeautifulSoup | Scrapes websites directly |
+| Groq API (free) | AI summarization using Llama 3 |
+| smtplib | Sends emails via Gmail |
+| python-dotenv | Manages secret keys safely |
+
+---
+
+## How to Run It Yourself
+
+### 1. Clone the repository
 ```bash
-uv run main.py
+git clone https://github.com/mitanshi57/ai-news-aggregator.git
+cd ai-news-aggregator
 ```
+
+### 2. Install dependencies
+```bash
+uv install
+```
+
+### 3. Set up your environment variables
+Create a `.env` file in the root folder:
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/ai_news
+GROQ_API_KEY=your_groq_api_key_here
+EMAIL_SENDER=your_gmail@gmail.com
+EMAIL_PASSWORD=your_gmail_app_password
+EMAIL_RECEIVER=your_gmail@gmail.com
+
+### 4. Start the database
+```bash
+cd docker
+docker compose up -d
+cd ..
+```
+
+### 5. Run the aggregator
+```bash
+python main.py
+```
+
+That's it! Check your inbox for the AI news digest 📧
+
+---
+
+## Getting Your API Keys
+
+### Groq API Key (Free)
+1. Go to [console.groq.com](https://console.groq.com)
+2. Sign up with Google
+3. Go to API Keys → Create new key
+4. Paste it in your `.env` file
+
+### Gmail App Password
+1. Go to [myaccount.google.com](https://myaccount.google.com)
+2. Security → Enable 2-Step Verification
+3. Search "App passwords" → Create one
+4. Paste the 16-character password in your `.env` file
+
+---
+
+## Project Structure
+ai-news-aggregator/
+├── app/
+│   ├── scrapers/          # One file per news source
+│   │   ├── openai.py
+│   │   ├── anthropic.py
+│   │   ├── deepmind.py
+│   │   ├── huggingface.py
+│   │   ├── mistral.py
+│   │   ├── mit_tech_review.py
+│   │   └── google_research.py
+│   ├── services/          # Shared tools
+│   │   ├── database.py    # Database connection
+│   │   ├── article_service.py  # Save articles
+│   │   ├── summarizer.py  # AI summarization
+│   │   └── email_service.py   # Send email digest
+│   └── models.py          # Database table structure
+├── docker/
+│   └── docker-compose.yml # PostgreSQL setup
+├── main.py                # Main pipeline
+├── .env                   # Your secret keys (never shared)
+└── pyproject.toml         # Project dependencies
+
+---
+
+## 👩‍💻 Built By
+Mitanshi P. Asnani
+Building real projects to learn AI & Data Science 
